@@ -3,9 +3,7 @@ import Day from "../day.ts";
 export default class Day01 extends Day {
   dayPath = () => import.meta.dirname!;
   expectedPart1Results = () => [["sample.txt", 5]];
-  override inputPart2 = "input2.txt";
   expectedPart2Results = () => [["sample2.txt", 28]];
-  override inputPart3 = "input3.txt";
   expectedPart3Results = () => [["sample3.txt", 30]];
 
   part1(input: string) {

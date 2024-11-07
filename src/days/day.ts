@@ -22,45 +22,46 @@ export default abstract class Day {
   inputPart3 = "input3.txt";
 
   run = () => {
+    const execute = (func: (input: string) => any, inputFile: string) =>
+      func(Deno.readTextFileSync(`${this.dayPath()}/data/${inputFile}`));
+
     const executePart = (
       part: string,
       func: (input: string) => any,
       inputFile: string,
-      expected?: any
+      tests: any[][]
     ) => {
-      if (expected != null) {
-        console.log(`${part} - ${inputFile} - ${expected}`);
-      }
-      const input = Deno.readTextFileSync(
-        `${this.dayPath()}/data/${inputFile}`
-      );
-      const output = func(input);
-      if (expected != null) {
-        assertEquals(output, expected);
+      tests.forEach(([testFile, expected]) => {
+        console.log(`${part} - ${testFile} - ${expected}`);
+        assertEquals(execute(func, testFile), expected);
         console.log("\u001b[32mPASSED\u001b[0m");
-      } else {
-        console.log(`${part} - ${output}`);
-        // Copy output to clipboard so it is easy to paste into submit
-        copy(output);
-      }
+      });
+
+      const output = execute(func, inputFile);
+      console.log(`${part} - ${output}\n`);
+      copy(output); // Copy output to clipboard so it is easy to paste into submit
     };
-    // Part1 Tests
-    this.expectedPart1Results().forEach(([inputFile, expected]) =>
-      executePart("Part1", this.part1, inputFile, expected)
-    );
-    // Part1
-    this.runPart1 && executePart("Part1", this.part1, this.inputPart1);
-    // Part2 Tests
-    this.expectedPart2Results().forEach(([inputFile, expected]) =>
-      executePart("Part2", this.part2, inputFile, expected)
-    );
-    // Part2
-    this.runPart2 && executePart("Part2", this.part2, this.inputPart2);
-    // Part3 Tests
-    this.expectedPart3Results().forEach(([inputFile, expected]) =>
-      executePart("Part3", this.part3, inputFile, expected)
-    );
-    // Part3
-    this.runPart3 && executePart("Part3", this.part3, this.inputPart3);
+
+    this.runPart1 &&
+      executePart(
+        "Part1",
+        this.part1,
+        this.inputPart1,
+        this.expectedPart1Results()
+      );
+    this.runPart2 &&
+      executePart(
+        "Part2",
+        this.part2,
+        this.inputPart2,
+        this.expectedPart2Results()
+      );
+    this.runPart3 &&
+      executePart(
+        "Part3",
+        this.part3,
+        this.inputPart3,
+        this.expectedPart3Results()
+      );
   };
 }
