@@ -9,50 +9,43 @@ export default class Day01 extends Day {
   expectedPart3Results = () => [["sample3.txt", 30]];
 
   part1(input: string) {
-    return input
-      .split("")
-      .map((monster) => potionsNeeded[monster])
-      .sum();
+    return process(input, 1);
   }
 
   part2(input: string) {
-    return input
-      .split("")
-      .windowed(2)
-      .map((window) => [
-        ...window.map((monster) => potionsNeeded[monster]),
-        window.includes("x") ? 0 : 2,
-      ])
-      .map((window) => window.sum())
-      .sum();
+    return process(input, 2);
   }
 
   part3(input: string) {
-    return input
-      .split("")
-      .windowed(3)
-      .map((window) => [
-        ...window.map((monster) => potionsNeeded[monster]),
-        xMap[window.count("x")],
-      ])
-      .map((window) => window.sum())
-      .sum();
+    return process(input, 3);
   }
 }
 
+const process = (input: string, groupSize: number) => {
+  return input
+    .split("")
+    .windowed(groupSize)
+    .map((window) => [
+      ...window.map((monster) => potionsNeeded[monster]),
+      groupBonus[groupSize - window.count("x")],
+    ])
+    .map((window) => window.sum())
+    .sum();
+};
+
 const potionsNeeded: Record<string, number> = {
+  x: 0,
   A: 0,
   B: 1,
   C: 3,
   D: 5,
-  x: 0,
 };
 
-const xMap: Record<number, number> = {
-  0: 6,
-  1: 2,
-  2: 0,
-  3: 0,
+const groupBonus: Record<number, number> = {
+  0: 0,
+  1: 0,
+  2: 2,
+  3: 6,
 };
 
 if (import.meta.main) {
