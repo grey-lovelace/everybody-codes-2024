@@ -6,6 +6,10 @@ String.prototype.lines = function (this) {
   return this.split(/(?:\r?\n){1}/);
 };
 
+String.prototype.reverse = function (this) {
+  return this.split("").reverse().join("");
+};
+
 String.prototype.findNumbers = function (this) {
   return this.matchAllAsList(/[\-\d]+/g)
     .map(i => i[0])
