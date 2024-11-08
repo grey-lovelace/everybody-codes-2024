@@ -8,11 +8,11 @@ export default class Day02 extends Day {
   expectedPart3Results = () => [["sample3.txt", 10]];
 
   part1(input: string) {
-    const items = input.paragraphs();
-    return items[0]
+    const [runicWords, notes] = input.paragraphs();
+    return runicWords
       .replace("WORDS:", "")
       .split(",")
-      .flatMap((word) => items[1].matchAllAsList(RegExp(word, "g"))).length;
+      .flatMap((word) => notes.matchAllAsList(RegExp(word, "g"))).length;
   }
 
   part2(input: string) {
@@ -36,13 +36,17 @@ export default class Day02 extends Day {
     const data = input.paragraphs();
     const notes = data[1].lines();
     const transposedNotes = notes
-      .map((l) => l.split(""))
+      .map((line) => line.letters())
       .transposed()
-      .map((line) => line.join(""));
-    const indexMap = notes
-      .map((line, i) => line.split("").map((_, i2) => i2 + line.length * i))
+      .map((letters) => letters.join(""));
+      
+    const transposedIndexMap = notes
+      .map((line, line_index) =>
+        line.letters().map((_, index) => index + line.length * line_index)
+      )
       .transposed()
-      .flatMap((x) => x);
+      .flatten();
+
     return data[0]
       .replace("WORDS:", "")
       .split(",")
@@ -65,7 +69,7 @@ export default class Day02 extends Day {
               range(match.index!, match.index! + word.length - 1)
             )
             .map((index) => index + line.length * i)
-            .map((index) => indexMap[index])
+            .map((index) => transposedIndexMap[index])
         ),
       ])
       .unique().length;

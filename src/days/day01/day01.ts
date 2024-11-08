@@ -21,7 +21,7 @@ export default class Day01 extends Day {
 
 const process = (input: string, groupSize: number) => {
   return input
-    .split("")
+    .letters()
     .windowed(groupSize)
     .map((window) => [
       ...window.map((monster) => potionsNeeded[monster]),

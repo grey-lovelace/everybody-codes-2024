@@ -6,6 +6,10 @@ String.prototype.lines = function (this) {
   return this.split(/(?:\r?\n){1}/);
 };
 
+String.prototype.letters = function (this) {
+  return this.split("");
+};
+
 String.prototype.reverse = function (this) {
   return this.split("").reverse().join("");
 };

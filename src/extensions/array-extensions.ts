@@ -79,6 +79,10 @@ Array.prototype.transposed = function (this) {
   }, [])
 }
 
+Array.prototype.flatten = function (this) {
+  return this.flatMap(x => x)
+}
+
 Array.prototype.windowed = function (this, windowSize: number) {
   return this.map((_, i) => range(0,windowSize-1).map(r => this[i+r]))
   .filter((l,i) => i%windowSize == 0)
