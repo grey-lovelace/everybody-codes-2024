@@ -3,10 +3,14 @@ import Day from "../day.ts";
 export default class DayTemplate extends Day {
   dayPath = () => import.meta.dirname!;
   expectedPart1Results = () => [["sample.txt", 0]];
+  expectedPart2Results = () => [
+    // ["sample2.txt", 0]
+  ];
   override runPart2 = false
-  expectedPart2Results = () => [["sample2.txt", 0]];
+  expectedPart3Results = () => [
+    // ["sample3.txt", 0]
+  ];
   override runPart3 = false
-  expectedPart3Results = () => [["sample3.txt", 0]];
 
   part1(input: string) {
     return input

@@ -28,6 +28,7 @@ export default abstract class Day {
     const executePart = (
       part: string,
       func: (input: string) => any,
+      shouldRun: boolean,
       inputFile: string,
       tests: any[][]
     ) => {
@@ -37,31 +38,33 @@ export default abstract class Day {
         console.log("\u001b[32mPASSED\u001b[0m");
       });
 
-      const output = execute(func, inputFile);
-      console.log(`${part} - ${output}\n`);
-      copy(output); // Copy output to clipboard so it is easy to paste into submit
+      if (shouldRun) {
+        const output = execute(func, inputFile);
+        console.log(`${part} - ${output}\n`);
+        copy(output); // Copy output to clipboard so it is easy to paste into submit
+      }
     };
 
-    this.runPart1 &&
-      executePart(
-        "Part1",
-        this.part1,
-        this.inputPart1,
-        this.expectedPart1Results()
-      );
-    this.runPart2 &&
-      executePart(
-        "Part2",
-        this.part2,
-        this.inputPart2,
-        this.expectedPart2Results()
-      );
-    this.runPart3 &&
-      executePart(
-        "Part3",
-        this.part3,
-        this.inputPart3,
-        this.expectedPart3Results()
-      );
+    executePart(
+      "Part1",
+      this.part1,
+      this.runPart1,
+      this.inputPart1,
+      this.expectedPart1Results()
+    );
+    executePart(
+      "Part2",
+      this.part2,
+      this.runPart2,
+      this.inputPart2,
+      this.expectedPart2Results()
+    );
+    executePart(
+      "Part3",
+      this.part3,
+      this.runPart3,
+      this.inputPart3,
+      this.expectedPart3Results()
+    );
   };
 }
